@@ -354,9 +354,13 @@ function Sidebar({
 function Dashboard({
   metricas,
   onMetricaChange,
+  perfil,
+  onCargarPerfil,
 }: {
   metricas: Metricas
   onMetricaChange: (m: Metricas) => void
+  perfil: Perfil
+  onCargarPerfil: (p: Perfil) => void
 }) {
   const consejo = CONSEJOS[Math.floor(Math.random() * CONSEJOS.length)]
 
@@ -392,9 +396,11 @@ function Dashboard({
 
   return (
     <div className="space-y-6">
-      {/* Welcome */}
-      <div className="bg-gradient-to-br from-indigo-500 via-indigo-600 to-emerald-600 rounded-2xl p-6 md:p-8 text-white shadow-xl">
-        <div className="flex items-start gap-4">
+      {/* Welcome Hero */}
+      <div className="bg-gradient-to-br from-indigo-500 via-indigo-600 to-emerald-600 rounded-2xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+        <div className="flex items-start gap-4 relative z-10">
           <div className="p-3 rounded-xl bg-white/15 backdrop-blur-sm">
             <HeartHandshake className="w-8 h-8" />
           </div>
@@ -403,6 +409,91 @@ function Dashboard({
             <p className="text-indigo-100 text-sm md:text-base leading-relaxed max-w-xl">
               Este es tu espacio personal para impulsar tu búsqueda laboral. Cada día es una nueva oportunidad para acercarte a ese trabajo que mereces. ¡Estoy aquí para ayudarte a lograrlo!
             </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Perfiles Demo - Tarjetas destacadas */}
+      <div>
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="w-4 h-4 text-indigo-500" />
+          <h3 className="text-sm font-semibold text-slate-700">👥 Perfiles de demostración</h3>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Carlos Mendoza */}
+          <div className={`group relative bg-white rounded-2xl border-2 p-5 shadow-sm transition-all duration-300 cursor-pointer hover:shadow-lg ${
+            perfil.nombre === PERFILES_TI.arquitectoBD.nombre
+              ? 'border-indigo-400 bg-indigo-50/30 shadow-md'
+              : 'border-slate-200 hover:border-indigo-300'
+          }`}
+            onClick={() => onCargarPerfil(PERFILES_TI.arquitectoBD)}
+          >
+            {perfil.nombre === PERFILES_TI.arquitectoBD.nombre && (
+              <div className="absolute -top-2 -right-2 bg-indigo-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">
+                ACTIVO
+              </div>
+            )}
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-indigo-400 to-indigo-600 text-white shadow-md shrink-0">
+                <Database className="w-6 h-6" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-bold text-slate-800 text-base">Carlos Mendoza</h4>
+                <p className="text-sm text-indigo-600 font-medium">Arquitecto de Base de Datos</p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-md text-[10px] font-medium">12 años exp.</span>
+                  <span className="px-2 py-0.5 bg-sky-100 text-sky-700 rounded-md text-[10px] font-medium">PostgreSQL</span>
+                  <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded-md text-[10px] font-medium">MongoDB</span>
+                  <span className="px-2 py-0.5 bg-orange-100 text-orange-700 rounded-md text-[10px] font-medium">AWS</span>
+                </div>
+                <p className="text-xs text-slate-500 mt-2 line-clamp-2">{PERFILES_TI.arquitectoBD.extracto}</p>
+              </div>
+              <button
+                onClick={(e) => { e.stopPropagation(); onCargarPerfil(PERFILES_TI.arquitectoBD); }}
+                className="shrink-0 p-2 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-all opacity-0 group-hover:opacity-100"
+                title="Cargar este perfil"
+              >
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* María F. López */}
+          <div className={`group relative bg-white rounded-2xl border-2 p-5 shadow-sm transition-all duration-300 cursor-pointer hover:shadow-lg ${
+            perfil.nombre === PERFILES_TI.gerenteOperaciones.nombre
+              ? 'border-emerald-400 bg-emerald-50/30 shadow-md'
+              : 'border-slate-200 hover:border-emerald-300'
+          }`}
+            onClick={() => onCargarPerfil(PERFILES_TI.gerenteOperaciones)}
+          >
+            {perfil.nombre === PERFILES_TI.gerenteOperaciones.nombre && (
+              <div className="absolute -top-2 -right-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">
+                ACTIVO
+              </div>
+            )}
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-md shrink-0">
+                <Building2 className="w-6 h-6" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-bold text-slate-800 text-base">María F. López</h4>
+                <p className="text-sm text-emerald-600 font-medium">Gerente de Operaciones</p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-md text-[10px] font-medium">10 años exp.</span>
+                  <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-md text-[10px] font-medium">SAP</span>
+                  <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded-md text-[10px] font-medium">Salesforce</span>
+                  <span className="px-2 py-0.5 bg-amber-100 text-amber-700 rounded-md text-[10px] font-medium">Lean Six Sigma</span>
+                </div>
+                <p className="text-xs text-slate-500 mt-2 line-clamp-2">{PERFILES_TI.gerenteOperaciones.extracto}</p>
+              </div>
+              <button
+                onClick={(e) => { e.stopPropagation(); onCargarPerfil(PERFILES_TI.gerenteOperaciones); }}
+                className="shrink-0 p-2 rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-all opacity-0 group-hover:opacity-100"
+                title="Cargar este perfil"
+              >
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -444,21 +535,42 @@ function Dashboard({
         ))}
       </div>
 
-      {/* Consejo */}
-      <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/60 rounded-2xl p-5 shadow-sm">
-        <div className="flex items-start gap-3">
-          <div className="p-2 rounded-xl bg-amber-100 text-amber-600 shrink-0">
-            <Quote className="w-5 h-5" />
+      {/* Consejo + Acceso rápido */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/60 rounded-2xl p-5 shadow-sm">
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-xl bg-amber-100 text-amber-600 shrink-0">
+              <Quote className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-amber-700 uppercase tracking-wider mb-1">💡 Consejo del Couch del día</p>
+              <p className="text-slate-700 text-sm leading-relaxed">{consejo}</p>
+            </div>
           </div>
-          <div>
-            <p className="text-xs font-semibold text-amber-700 uppercase tracking-wider mb-1">💡 Consejo del Couch del día</p>
-            <p className="text-slate-700 text-sm leading-relaxed">{consejo}</p>
+        </div>
+
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">⚡ Acceso rápido</p>
+          <div className="grid grid-cols-2 gap-2">
+            <button onClick={() => {}} className="flex items-center gap-2 p-2.5 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-all text-xs font-medium">
+              <Bot className="w-4 h-4" /> Auditor IA
+            </button>
+            <button onClick={() => {}} className="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-all text-xs font-medium">
+              <MessageSquare className="w-4 h-4" /> Networking
+            </button>
+            <button onClick={() => {}} className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-50 text-amber-700 hover:bg-amber-100 transition-all text-xs font-medium">
+              <Target className="w-4 h-4" /> ATS Matcher
+            </button>
+            <button onClick={() => {}} className="flex items-center gap-2 p-2.5 rounded-xl bg-purple-50 text-purple-700 hover:bg-purple-100 transition-all text-xs font-medium">
+              <User className="w-4 h-4" /> Mi Perfil
+            </button>
           </div>
         </div>
       </div>
     </div>
   )
 }
+
 
 // ─── Componente Selector Perfiles Demo ──────────────────────────────────────
 function SelectorPerfilesDemo({ onCargar }: { onCargar: (p: Perfil) => void }) {
@@ -935,7 +1047,8 @@ function App() {
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <Dashboard metricas={metricas} onMetricaChange={setMetricas} />
+        return <Dashboard metricas={metricas} onMetricaChange={setMetricas} perfil={perfil} onCargarPerfil={setPerfil} />
+
       case 'perfil':
         return <MiPerfil perfil={perfil} onPerfilChange={setPerfil} onGuardar={guardarPerfil} />
       case 'auditor':
